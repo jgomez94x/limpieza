@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="theme-color" content="#fff7fb">
 
-  <!-- Icono de la app para iPhone -->
+  <!-- Icono de la app para iPhone 512x512 -->
   <link rel="apple-touch-icon" sizes="512x512" href="icon.png">
 
   <!-- Icono normal para navegador -->
@@ -98,6 +98,13 @@
       line-height: 1.4;
     }
 
+    .ultima-tasa {
+      margin-top: 8px;
+      font-size: 13px;
+      color: #9c4d72;
+      font-weight: bold;
+    }
+
     .categoria {
       margin-bottom: 18px;
     }
@@ -121,7 +128,6 @@
     }
 
     .producto {
-      border: none;
       padding: 12px 10px;
       font-size: 15px;
       font-weight: bold;
@@ -129,6 +135,10 @@
       width: 100%;
       display: block;
       cursor: default;
+      box-sizing: border-box;
+      text-align: center;
+      user-select: none;
+      pointer-events: none;
     }
 
     .producto span {
@@ -153,6 +163,7 @@
       font-weight: bold;
       cursor: pointer;
       color: #555;
+      transition: transform 0.08s ease, filter 0.08s ease;
     }
 
     .boton-litro:first-child {
@@ -161,6 +172,11 @@
 
     .boton-litro:hover {
       filter: brightness(0.96);
+    }
+
+    .boton-litro:active {
+      transform: scale(0.94);
+      filter: brightness(0.90);
     }
 
     .p1 { background: #ffd6e8; }
@@ -244,10 +260,15 @@
       cursor: pointer;
       font-weight: bold;
       font-size: 14px;
+      transition: transform 0.08s ease;
     }
 
     .boton-manual:hover {
       background: #efc99d;
+    }
+
+    .boton-manual:active {
+      transform: scale(0.96);
     }
 
     .resumen-box {
@@ -308,10 +329,15 @@
       font-weight: bold;
       cursor: pointer;
       flex-shrink: 0;
+      transition: transform 0.08s ease;
     }
 
     .btn-eliminar-linea:hover {
       background: #f5a8b8;
+    }
+
+    .btn-eliminar-linea:active {
+      transform: scale(0.90);
     }
 
     .totales {
@@ -342,6 +368,11 @@
       color: #444;
       display: inline-block;
       margin: 0 8px 8px 0;
+      transition: transform 0.08s ease;
+    }
+
+    .accion:active {
+      transform: scale(0.96);
     }
 
     .copiar {
@@ -378,6 +409,31 @@
       margin-top: 14px;
       font-size: 12px;
       color: #999;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%) translateY(20px);
+      background: #2f6152;
+      color: white;
+      padding: 12px 18px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: bold;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease, transform 0.22s ease;
+      z-index: 9999;
+      max-width: 85%;
+      text-align: center;
+    }
+
+    .toast.mostrar {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
     }
 
     @media (max-width: 600px) {
@@ -419,6 +475,10 @@
       .accion {
         width: calc(50% - 14px);
       }
+
+      .toast {
+        bottom: 18px;
+      }
     }
   </style>
 </head>
@@ -432,8 +492,13 @@
       <label>Tasa BCV:</label>
       <input type="text" id="tasa" value="" onkeyup="alCambiarTasa()" placeholder="Ej: 36.50" />
       <button class="boton-tasa" onclick="actualizarTasaBCV(true)">Actualizar tasa</button>
+
+      <div class="ultima-tasa" id="ultimaActualizacionTasa">
+        Última actualización BCV: pendiente
+      </div>
+
       <div class="nota">
-        La tasa BCV se intenta actualizar automáticamente al abrir la app. Si no funciona, colócala manualmente.
+        La tasa BCV se intenta actualizar automáticamente al abrir la app. Si no funciona, se mantiene la última tasa guardada.
       </div>
     </div>
 
@@ -441,10 +506,10 @@
       <h2>Cocina</h2>
 
       <div class="producto-card p1">
-        <button class="producto p1" type="button">
+        <div class="producto p1">
           Lavaplatos
           <span>$1.50 / L</span>
-        </button>
+        </div>
         <div class="opciones-litro">
           <button class="boton-litro" onclick="agregarProducto('Lavaplatos', 1.50, 0.5)">+ 0.5 L</button>
           <button class="boton-litro" onclick="agregarProducto('Lavaplatos', 1.50, 1)">+ 1 L</button>
@@ -456,10 +521,10 @@
       <h2>Ropa</h2>
 
       <div class="producto-card p2">
-        <button class="producto p2" type="button">
+        <div class="producto p2">
           Jabón líquido
           <span>$1.50 / L</span>
-        </button>
+        </div>
         <div class="opciones-litro">
           <button class="boton-litro" onclick="agregarProducto('Jabón líquido', 1.50, 0.5)">+ 0.5 L</button>
           <button class="boton-litro" onclick="agregarProducto('Jabón líquido', 1.50, 1)">+ 1 L</button>
@@ -467,10 +532,10 @@
       </div>
 
       <div class="producto-card p4">
-        <button class="producto p4" type="button">
+        <div class="producto p4">
           Suavizante
           <span>$1.50 / L</span>
-        </button>
+        </div>
         <div class="opciones-litro">
           <button class="boton-litro" onclick="agregarProducto('Suavizante', 1.50, 0.5)">+ 0.5 L</button>
           <button class="boton-litro" onclick="agregarProducto('Suavizante', 1.50, 1)">+ 1 L</button>
@@ -482,10 +547,10 @@
       <h2>Limpieza general</h2>
 
       <div class="producto-card p3">
-        <button class="producto p3" type="button">
+        <div class="producto p3">
           Cera
           <span>$1.00 / L</span>
-        </button>
+        </div>
         <div class="opciones-litro">
           <button class="boton-litro" onclick="agregarProducto('Cera', 1.00, 0.5)">+ 0.5 L</button>
           <button class="boton-litro" onclick="agregarProducto('Cera', 1.00, 1)">+ 1 L</button>
@@ -493,10 +558,10 @@
       </div>
 
       <div class="producto-card p5">
-        <button class="producto p5" type="button">
+        <div class="producto p5">
           Cloro
           <span>$0.80 / L</span>
-        </button>
+        </div>
         <div class="opciones-litro">
           <button class="boton-litro" onclick="agregarProducto('Cloro', 0.80, 0.5)">+ 0.5 L</button>
           <button class="boton-litro" onclick="agregarProducto('Cloro', 0.80, 1)">+ 1 L</button>
@@ -504,10 +569,10 @@
       </div>
 
       <div class="producto-card p6">
-        <button class="producto p6" type="button">
+        <div class="producto p6">
           Desinfectante
           <span>$0.90 / L</span>
-        </button>
+        </div>
         <div class="opciones-litro">
           <button class="boton-litro" onclick="agregarProducto('Desinfectante', 0.90, 0.5)">+ 0.5 L</button>
           <button class="boton-litro" onclick="agregarProducto('Desinfectante', 0.90, 1)">+ 1 L</button>
@@ -515,10 +580,10 @@
       </div>
 
       <div class="producto-card p8">
-        <button class="producto p8" type="button">
+        <div class="producto p8">
           Desengrasante
           <span>$1.50 / L</span>
-        </button>
+        </div>
         <div class="opciones-litro">
           <button class="boton-litro" onclick="agregarProducto('Desengrasante', 1.50, 0.5)">+ 0.5 L</button>
           <button class="boton-litro" onclick="agregarProducto('Desengrasante', 1.50, 1)">+ 1 L</button>
@@ -526,10 +591,10 @@
       </div>
 
       <div class="producto-card p9">
-        <button class="producto p9" type="button">
+        <div class="producto p9">
           Mata olor
           <span>$0.95 / L</span>
-        </button>
+        </div>
         <div class="opciones-litro">
           <button class="boton-litro" onclick="agregarProducto('Mata olor', 0.95, 0.5)">+ 0.5 L</button>
           <button class="boton-litro" onclick="agregarProducto('Mata olor', 0.95, 1)">+ 1 L</button>
@@ -541,10 +606,10 @@
       <h2>Baño</h2>
 
       <div class="producto-card p7">
-        <button class="producto p7" type="button">
+        <div class="producto p7">
           Limpia pocetas
           <span>$1.80 / L</span>
-        </button>
+        </div>
         <div class="opciones-litro">
           <button class="boton-litro" onclick="agregarProducto('Limpia pocetas', 1.80, 0.5)">+ 0.5 L</button>
           <button class="boton-litro" onclick="agregarProducto('Limpia pocetas', 1.80, 1)">+ 1 L</button>
@@ -607,10 +672,14 @@
     </div>
   </div>
 
+  <div class="toast" id="toast"></div>
+
   <script>
     var productos = [];
     var STORAGE_PRODUCTOS = "pedido_limpieza_productos";
     var STORAGE_TASA = "pedido_limpieza_tasa";
+    var STORAGE_TASA_FECHA = "pedido_limpieza_tasa_fecha";
+    var toastTimer = null;
 
     function numeroValido(valor) {
       valor = String(valor).replace(",", ".");
@@ -629,6 +698,42 @@
         return cantidad.toString();
       }
       return cantidad.toFixed(2).replace(".", ",");
+    }
+
+    function mostrarToast(mensaje) {
+      var toast = document.getElementById("toast");
+      toast.innerText = mensaje;
+      toast.classList.add("mostrar");
+
+      if (toastTimer) {
+        clearTimeout(toastTimer);
+      }
+
+      toastTimer = setTimeout(function() {
+        toast.classList.remove("mostrar");
+      }, 1400);
+    }
+
+    function formatearFechaHora(fecha) {
+      return fecha.toLocaleString("es-VE", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true
+      });
+    }
+
+    function actualizarTextoFechaTasa() {
+      var fechaGuardada = localStorage.getItem(STORAGE_TASA_FECHA);
+      var elemento = document.getElementById("ultimaActualizacionTasa");
+
+      if (fechaGuardada) {
+        elemento.innerText = "Última actualización BCV: " + fechaGuardada;
+      } else {
+        elemento.innerText = "Última actualización BCV: pendiente";
+      }
     }
 
     function guardarDatos() {
@@ -651,6 +756,8 @@
       if (tasaGuardada) {
         document.getElementById("tasa").value = tasaGuardada;
       }
+
+      actualizarTextoFechaTasa();
     }
 
     function agregarProducto(nombre, precioUnidad, cantidad) {
@@ -661,6 +768,7 @@
       });
 
       actualizarPantalla();
+      mostrarToast("Sumado: " + nombre + " +" + formatoCantidad(cantidad) + " L");
     }
 
     function agregarProductoManual() {
@@ -694,13 +802,19 @@
       document.getElementById("manualPrecio").value = "";
 
       actualizarPantalla();
+      mostrarToast("Producto agregado");
     }
 
     function eliminarLinea(claveBuscada) {
       var conteo = contarProductos();
+      var nombreEliminado = "";
       var nuevosProductos = [];
 
       for (var clave in conteo) {
+        if (clave === claveBuscada) {
+          nombreEliminado = conteo[clave].nombre;
+        }
+
         if (clave !== claveBuscada && conteo[clave].cantidad > 0) {
           nuevosProductos.push({
             nombre: conteo[clave].nombre,
@@ -712,6 +826,10 @@
 
       productos = nuevosProductos;
       actualizarPantalla();
+
+      if (nombreEliminado) {
+        mostrarToast("Eliminado: " + nombreEliminado);
+      }
     }
 
     function limpiarTodo() {
@@ -724,6 +842,7 @@
       if (confirmar) {
         productos = [];
         actualizarPantalla();
+        mostrarToast("Pedido limpiado");
       }
     }
 
@@ -876,7 +995,7 @@
 
       if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(texto).then(function() {
-          alert("Resumen copiado. Ya puedes pegarlo en WhatsApp.");
+          mostrarToast("Resumen copiado");
         }).catch(function() {
           copiarManual();
         });
@@ -891,7 +1010,7 @@
 
       try {
         document.execCommand("copy");
-        alert("Resumen copiado. Ya puedes pegarlo en WhatsApp.");
+        mostrarToast("Resumen copiado");
       } catch (e) {
         alert("No se pudo copiar automático. Selecciona el texto y cópialo manualmente.");
       }
@@ -933,11 +1052,17 @@
 
         if (datos && datos.promedio) {
           var tasa = parseFloat(datos.promedio);
+          var fechaActual = formatearFechaHora(new Date());
+
           document.getElementById("tasa").value = tasa.toFixed(2);
+
           localStorage.setItem(STORAGE_TASA, tasa.toFixed(2));
+          localStorage.setItem(STORAGE_TASA_FECHA, fechaActual);
+
+          actualizarTextoFechaTasa();
 
           if (mostrarAlerta) {
-            alert("Tasa actualizada correctamente: " + formatoBs(tasa));
+            mostrarToast("Tasa BCV actualizada");
           }
 
           actualizarPantalla();
@@ -947,13 +1072,19 @@
           }
         }
       } catch (error) {
+        actualizarTextoFechaTasa();
+
         if (mostrarAlerta) {
-          alert("No se pudo actualizar la tasa. Colócala manualmente.");
+          alert("No se pudo actualizar la tasa. Se mantiene la última tasa guardada.");
         }
       }
     }
 
     function alCambiarTasa() {
+      var fechaManual = formatearFechaHora(new Date()) + " manual";
+      localStorage.setItem(STORAGE_TASA_FECHA, fechaManual);
+      actualizarTextoFechaTasa();
+
       guardarDatos();
       actualizarPantalla();
     }
