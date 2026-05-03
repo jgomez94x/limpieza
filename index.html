@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Pedidos Limpieza</title>
+
+  <!-- Configuración para que se vea como app en iPhone -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Pedidos Limpieza">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="theme-color" content="#fff7fb">
+
+  <!-- Icono de la app para iPhone -->
+  <link rel="apple-touch-icon" href="icon.png">
+
+  <!-- Icono normal para navegador -->
+  <link rel="icon" type="image/png" href="icon.png">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 18px;
+      font-family: Arial, sans-serif;
+      background: #fff7fb;
+      color: #444;
+    }
+
+    .contenedor {
+      max-width: 760px;
+      margin: auto;
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.10);
+      border: 1px solid #f6d9e8;
+    }
+
+    h1 {
+      margin: 0;
+      text-align: center;
+      color: #c75c8d;
+      font-size: 26px;
+    }
+
+    .subtitulo {
+      text-align: center;
+      color: #777;
+      margin-top: 6px;
+      margin-bottom: 16px;
+      font-size: 14px;
+    }
+
+    .tasa-box {
+      background: #fff0f6;
+      border: 1px solid #f3c7dc;
+      border-radius: 14px;
+      padding: 12px;
+      margin-bottom: 16px;
+    }
+
+    .tasa-box label {
+      font-weight: bold;
+      color: #9c4d72;
+      font-size: 24px;
+    }
+
+    .tasa-box input {
+      width: 110px;
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid #d9a7bf;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .boton-tasa {
+      background: #b8e0d2;
+      color: #2f6152;
+      border: none;
+      border-radius: 10px;
+      padding: 11px 14px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-left: 6px;
+      font-size: 16px;
+    }
+
+    .boton-tasa:hover {
+      background: #9fd3c2;
+    }
+
+    .nota {
+      font-size: 12px;
+      color: #777;
+      margin-top: 8px;
+      line-height: 1.4;
+    }
+
+    .categoria {
+      margin-bottom: 18px;
+    }
+
+    .categoria h2 {
+      font-size: 17px;
+      color: #9c4d72;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #f1d5e3;
+      padding-bottom: 5px;
+    }
+
+    .producto-card {
+      display: inline-block;
+      vertical-align: top;
+      margin: 0 8px 10px 0;
+      border-radius: 14px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+      overflow: hidden;
+      min-width: 120px;
+    }
+
+    .producto {
+      border: none;
+      padding: 12px 10px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: bold;
+      color: #555;
+      width: 100%;
+      display: block;
+    }
+
+    .producto span {
+      display: block;
+      font-size: 13px;
+      font-weight: normal;
+      margin-top: 4px;
+      color: #666;
+    }
+
+    .medio-litro {
+      width: 100%;
+      border: none;
+      padding: 8px;
+      background: rgba(255,255,255,0.65);
+      font-size: 13px;
+      font-weight: bold;
+      cursor: pointer;
+      color: #555;
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .medio-litro:hover,
+    .producto:hover {
+      filter: brightness(0.98);
+    }
+
+    .p1 { background: #ffd6e8; }
+    .p2 { background: #d8f3dc; }
+    .p3 { background: #fff3b0; }
+    .p4 { background: #d7e3fc; }
+    .p5 { background: #fde2cf; }
+    .p6 { background: #e4c1f9; }
+    .p7 { background: #cdeac0; }
+    .p8 { background: #bee1e6; }
+    .p9 { background: #fbc4ab; }
+
+    .manual-box {
+      background: #fffaf0;
+      border: 1px solid #f3d5a8;
+      border-radius: 14px;
+      padding: 12px;
+      margin-bottom: 16px;
+    }
+
+    .manual-box h2 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      font-size: 18px;
+      color: #b07634;
+    }
+
+    .manual-fila {
+      margin-bottom: 8px;
+    }
+
+    .campo-manual {
+      display: inline-block;
+      vertical-align: top;
+      margin-right: 10px;
+      margin-bottom: 8px;
+    }
+
+    .campo-manual label {
+      display: block;
+      font-size: 13px;
+      font-weight: bold;
+      color: #8a6a3f;
+      margin-bottom: 4px;
+    }
+
+    .campo-manual input {
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid #ddb985;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    .campo-cantidad input {
+      width: 80px;
+      text-align: center;
+    }
+
+    .campo-nombre input {
+      width: 190px;
+    }
+
+    .campo-precio input {
+      width: 90px;
+      text-align: center;
+    }
+
+    .boton-manual-wrap {
+      display: inline-block;
+      vertical-align: top;
+      margin-top: 20px;
+    }
+
+    .boton-manual {
+      background: #f7d9b8;
+      color: #70451b;
+      border: none;
+      border-radius: 10px;
+      padding: 9px 14px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .resumen-box {
+      background: #fafafa;
+      border: 1px solid #e8e8e8;
+      border-radius: 14px;
+      padding: 12px;
+      min-height: 150px;
+      margin-bottom: 14px;
+    }
+
+    .resumen-box h2 {
+      margin-top: 0;
+      font-size: 18px;
+      color: #9c4d72;
+    }
+
+    #listaProductos {
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .item-lista {
+      border-bottom: 1px solid #eeeeee;
+      padding: 8px 0;
+    }
+
+    .item-lista:last-child {
+      border-bottom: none;
+    }
+
+    .item-nombre {
+      font-weight: bold;
+    }
+
+    .item-detalle {
+      font-size: 14px;
+      color: #666;
+      margin-top: 3px;
+    }
+
+    .item-controles {
+      margin-top: 7px;
+    }
+
+    .btn-mini {
+      border: none;
+      border-radius: 8px;
+      padding: 6px 10px;
+      margin-right: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      background: #e9e9e9;
+      color: #444;
+    }
+
+    .btn-mini.mas {
+      background: #cdeac0;
+    }
+
+    .btn-mini.menos {
+      background: #ffcad4;
+    }
+
+    .totales {
+      background: #f1f8f5;
+      border: 1px solid #cce8dc;
+      border-radius: 14px;
+      padding: 12px;
+      margin-bottom: 14px;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    .totales strong {
+      color: #2f6152;
+    }
+
+    .acciones {
+      margin-top: 8px;
+    }
+
+    .accion {
+      border: none;
+      border-radius: 14px;
+      padding: 13px 12px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      color: #444;
+      display: inline-block;
+      margin: 0 8px 8px 0;
+    }
+
+    .eliminar {
+      background: #ffcad4;
+    }
+
+    .copiar {
+      background: #b8e0d2;
+    }
+
+    .whatsapp {
+      background: #cdeac0;
+    }
+
+    .limpiar {
+      background: #fde2cf;
+    }
+
+    .ver {
+      background: #d7e3fc;
+    }
+
+    textarea {
+      width: 100%;
+      height: 170px;
+      margin-top: 14px;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      padding: 10px;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      resize: vertical;
+      box-sizing: border-box;
+    }
+
+    .pie {
+      text-align: center;
+      margin-top: 14px;
+      font-size: 12px;
+      color: #999;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+
+      .contenedor {
+        padding: 14px;
+      }
+
+      .tasa-box label {
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      .boton-tasa {
+        margin-left: 0;
+        margin-top: 8px;
+      }
+
+      .producto-card {
+        width: calc(50% - 14px);
+        min-width: 0;
+      }
+
+      .campo-cantidad input {
+        width: 75px;
+      }
+
+      .campo-nombre input {
+        width: 170px;
+      }
+
+      .campo-precio input {
+        width: 85px;
+      }
+
+      .accion {
+        width: calc(50% - 14px);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="contenedor">
+    <h1>Pedido de Limpieza</h1>
+    <div class="subtitulo">Sumadora rápida de productos</div>
+
+    <div class="tasa-box">
+      <label>Tasa BCV:</label>
+      <input type="text" id="tasa" value="" onkeyup="alCambiarTasa()" placeholder="Ej: 36.50" />
+      <button class="boton-tasa" onclick="actualizarTasaBCV(true)">Actualizar tasa</button>
+      <div class="nota">
+        La tasa BCV se intenta actualizar automáticamente al abrir la app. Si no funciona, colócala manualmente.
+      </div>
+    </div>
+
+    <div class="categoria">
+      <h2>Cocina</h2>
+
+      <div class="producto-card p1">
+        <button class="producto p1" onclick="agregarProducto('Lavaplatos', 1.50, 1)">
+          Lavaplatos
+          <span>$1.50 / L</span>
+        </button>
+        <button class="medio-litro" onclick="agregarProducto('Lavaplatos', 1.50, 0.5)">+ 0.5 L</button>
+      </div>
+    </div>
+
+    <div class="categoria">
+      <h2>Ropa</h2>
+
+      <div class="producto-card p2">
+        <button class="producto p2" onclick="agregarProducto('Jabón líquido', 1.50, 1)">
+          Jabón líquido
+          <span>$1.50 / L</span>
+        </button>
+        <button class="medio-litro" onclick="agregarProducto('Jabón líquido', 1.50, 0.5)">+ 0.5 L</button>
+      </div>
+
+      <div class="producto-card p4">
+        <button class="producto p4" onclick="agregarProducto('Suavizante', 1.50, 1)">
+          Suavizante
+          <span>$1.50 / L</span>
+        </button>
+        <button class="medio-litro" onclick="agregarProducto('Suavizante', 1.50, 0.5)">+ 0.5 L</button>
+      </div>
+    </div>
+
+    <div class="categoria">
+      <h2>Limpieza general</h2>
+
+      <div class="producto-card p3">
+        <button class="producto p3" onclick="agregarProducto('Cera', 1.00, 1)">
+          Cera
+          <span>$1.00 / L</span>
+        </button>
+        <button class="medio-litro" onclick="agregarProducto('Cera', 1.00, 0.5)">+ 0.5 L</button>
+      </div>
+
+      <div class="producto-card p5">
+        <button class="producto p5" onclick="agregarProducto('Cloro', 0.80, 1)">
+          Cloro
+          <span>$0.80 / L</span>
+        </button>
+        <button class="medio-litro" onclick="agregarProducto('Cloro', 0.80, 0.5)">+ 0.5 L</button>
+      </div>
+
+      <div class="producto-card p6">
+        <button class="producto p6" onclick="agregarProducto('Desinfectante', 0.90, 1)">
+          Desinfectante
+          <span>$0.90 / L</span>
+        </button>
+        <button class="medio-litro" onclick="agregarProducto('Desinfectante', 0.90, 0.5)">+ 0.5 L</button>
+      </div>
+
+      <div class="producto-card p8">
+        <button class="producto p8" onclick="agregarProducto('Desengrasante', 1.50, 1)">
+          Desengrasante
+          <span>$1.50 / L</span>
+        </button>
+        <button class="medio-litro" onclick="agregarProducto('Desengrasante', 1.50, 0.5)">+ 0.5 L</button>
+      </div>
+
+      <div class="producto-card p9">
+        <button class="producto p9" onclick="agregarProducto('Mata olor', 0.95, 1)">
+          Mata olor
+          <span>$0.95 / L</span>
+        </button>
+        <button class="medio-litro" onclick="agregarProducto('Mata olor', 0.95, 0.5)">+ 0.5 L</button>
+      </div>
+    </div>
+
+    <div class="categoria">
+      <h2>Baño</h2>
+
+      <div class="producto-card p7">
+        <button class="producto p7" onclick="agregarProducto('Limpia pocetas', 1.80, 1)">
+          Limpia pocetas
+          <span>$1.80 / L</span>
+        </button>
+        <button class="medio-litro" onclick="agregarProducto('Limpia pocetas', 1.80, 0.5)">+ 0.5 L</button>
+      </div>
+    </div>
+
+    <div class="manual-box">
+      <h2>Producto especial</h2>
+
+      <div class="manual-fila">
+        <div class="campo-manual campo-cantidad">
+          <label>Cantidad</label>
+          <input type="text" id="manualCantidad" placeholder="Ej: 3" />
+        </div>
+
+        <div class="campo-manual campo-nombre">
+          <label>Nombre</label>
+          <input type="text" id="manualNombre" placeholder="Ej: Cepillo" />
+        </div>
+
+        <div class="campo-manual campo-precio">
+          <label>Precio $</label>
+          <input type="text" id="manualPrecio" placeholder="Ej: 4" />
+        </div>
+
+        <div class="boton-manual-wrap">
+          <button class="boton-manual" onclick="agregarProductoManual()">Agregar</button>
+        </div>
+      </div>
+
+      <div class="nota">
+        Usa esto para productos ocasionales. Ejemplo: cantidad 3, nombre cepillo, precio 4.
+      </div>
+    </div>
+
+    <div class="resumen-box">
+      <h2>Productos agregados</h2>
+      <div id="listaProductos"></div>
+    </div>
+
+    <div class="totales">
+      <div>Total de productos: <strong id="cantidadProductos">0</strong></div>
+      <div>Total en litros/unidades: <strong id="totalCantidad">0</strong></div>
+      <div>Total en dólares: <strong id="totalDolares">$0.00</strong></div>
+      <div>Total en bolívares: <strong id="totalBolivares">0,00 Bs</strong></div>
+    </div>
+
+    <div class="acciones">
+      <button class="accion eliminar" onclick="eliminarUltimo()">Eliminar último</button>
+      <button class="accion copiar" onclick="copiarResumen()">Copiar WhatsApp</button>
+      <button class="accion whatsapp" onclick="enviarWhatsApp()">Enviar WhatsApp</button>
+      <button class="accion ver" onclick="verPrecios()">Ver precios</button>
+      <button class="accion limpiar" onclick="limpiarTodo()">Limpiar todo</button>
+    </div>
+
+    <textarea id="resumenCopiar" readonly></textarea>
+
+    <div class="pie">
+      App sencilla para pedidos de productos de limpieza
+    </div>
+  </div>
+
+  <script>
+    var productos = [];
+    var STORAGE_PRODUCTOS = "pedido_limpieza_productos";
+    var STORAGE_TASA = "pedido_limpieza_tasa";
+
+    function numeroValido(valor) {
+      valor = String(valor).replace(",", ".");
+      return parseFloat(valor);
+    }
+
+    function formatoBs(numero) {
+      return numero.toLocaleString("de-DE", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }) + " Bs";
+    }
+
+    function formatoCantidad(cantidad) {
+      if (Number.isInteger(cantidad)) {
+        return cantidad.toString();
+      }
+      return cantidad.toFixed(2).replace(".", ",");
+    }
+
+    function guardarDatos() {
+      localStorage.setItem(STORAGE_PRODUCTOS, JSON.stringify(productos));
+      localStorage.setItem(STORAGE_TASA, document.getElementById("tasa").value);
+    }
+
+    function cargarDatos() {
+      var productosGuardados = localStorage.getItem(STORAGE_PRODUCTOS);
+      var tasaGuardada = localStorage.getItem(STORAGE_TASA);
+
+      if (productosGuardados) {
+        try {
+          productos = JSON.parse(productosGuardados);
+        } catch (e) {
+          productos = [];
+        }
+      }
+
+      if (tasaGuardada) {
+        document.getElementById("tasa").value = tasaGuardada;
+      }
+    }
+
+    function agregarProducto(nombre, precioUnidad, cantidad) {
+      productos.push({
+        nombre: nombre,
+        precioUnidad: precioUnidad,
+        cantidad: cantidad
+      });
+
+      actualizarPantalla();
+    }
+
+    function agregarProductoManual() {
+      var cantidad = numeroValido(document.getElementById("manualCantidad").value);
+      var nombre = document.getElementById("manualNombre").value.trim();
+      var precio = numeroValido(document.getElementById("manualPrecio").value);
+
+      if (isNaN(cantidad) || cantidad <= 0) {
+        alert("Coloca una cantidad válida.");
+        return;
+      }
+
+      if (nombre.replace(/\s/g, "") === "") {
+        alert("Coloca el nombre del producto.");
+        return;
+      }
+
+      if (isNaN(precio) || precio <= 0) {
+        alert("Coloca un precio válido en dólares.");
+        return;
+      }
+
+      productos.push({
+        nombre: nombre,
+        precioUnidad: precio,
+        cantidad: cantidad
+      });
+
+      document.getElementById("manualCantidad").value = "";
+      document.getElementById("manualNombre").value = "";
+      document.getElementById("manualPrecio").value = "";
+
+      actualizarPantalla();
+    }
+
+    function eliminarUltimo() {
+      if (productos.length > 0) {
+        productos.pop();
+        actualizarPantalla();
+      } else {
+        alert("No hay productos para eliminar.");
+      }
+    }
+
+    function limpiarTodo() {
+      if (productos.length === 0) {
+        alert("No hay productos agregados.");
+        return;
+      }
+
+      var confirmar = confirm("¿Seguro que quieres limpiar todo el pedido?");
+      if (confirmar) {
+        productos = [];
+        actualizarPantalla();
+      }
+    }
+
+    function obtenerTasa() {
+      var input = document.getElementById("tasa");
+      var valor = numeroValido(input.value);
+
+      if (isNaN(valor) || valor <= 0) {
+        return 0;
+      }
+
+      return valor;
+    }
+
+    function contarProductos() {
+      var conteo = {};
+
+      for (var i = 0; i < productos.length; i++) {
+        var nombre = productos[i].nombre;
+        var precioUnidad = productos[i].precioUnidad;
+        var cantidad = productos[i].cantidad;
+        var clave = nombre + "||" + precioUnidad.toFixed(2);
+
+        if (!conteo[clave]) {
+          conteo[clave] = {
+            nombre: nombre,
+            cantidad: 0,
+            precioUnidad: precioUnidad
+          };
+        }
+
+        conteo[clave].cantidad += cantidad;
+      }
+
+      return conteo;
+    }
+
+    function cambiarCantidad(claveBuscada, cambio) {
+      var conteo = contarProductos();
+      var item = conteo[claveBuscada];
+
+      if (!item) {
+        return;
+      }
+
+      productos.push({
+        nombre: item.nombre,
+        precioUnidad: item.precioUnidad,
+        cantidad: cambio
+      });
+
+      normalizarProductos();
+      actualizarPantalla();
+    }
+
+    function normalizarProductos() {
+      var conteo = contarProductos();
+      var nuevosProductos = [];
+
+      for (var clave in conteo) {
+        if (conteo[clave].cantidad > 0) {
+          nuevosProductos.push({
+            nombre: conteo[clave].nombre,
+            precioUnidad: conteo[clave].precioUnidad,
+            cantidad: conteo[clave].cantidad
+          });
+        }
+      }
+
+      productos = nuevosProductos;
+    }
+
+    function actualizarPantalla() {
+      normalizarProductos();
+
+      var listaHTML = "";
+      var totalDolares = 0;
+      var totalCantidad = 0;
+      var totalProductos = 0;
+
+      if (productos.length === 0) {
+        listaHTML = "Todavía no has agregado productos.";
+      } else {
+        var conteo = contarProductos();
+
+        for (var clave in conteo) {
+          var nombre = conteo[clave].nombre;
+          var cantidad = conteo[clave].cantidad;
+          var precioUnidad = conteo[clave].precioUnidad;
+          var subtotal = cantidad * precioUnidad;
+
+          totalCantidad += cantidad;
+          totalProductos++;
+          totalDolares += subtotal;
+
+          listaHTML += '<div class="item-lista">';
+          listaHTML += '<div class="item-nombre">' + nombre + '</div>';
+          listaHTML += '<div class="item-detalle">' + formatoCantidad(cantidad) + ' x $' + precioUnidad.toFixed(2) + ' = $' + subtotal.toFixed(2) + '</div>';
+          listaHTML += '<div class="item-controles">';
+          listaHTML += '<button class="btn-mini menos" onclick="cambiarCantidad(\'' + clave + '\', -0.5)">- 0.5</button>';
+          listaHTML += '<button class="btn-mini mas" onclick="cambiarCantidad(\'' + clave + '\', 0.5)">+ 0.5</button>';
+          listaHTML += '<button class="btn-mini mas" onclick="cambiarCantidad(\'' + clave + '\', 1)">+ 1</button>';
+          listaHTML += '</div>';
+          listaHTML += '</div>';
+        }
+      }
+
+      var tasa = obtenerTasa();
+      var totalBolivares = totalDolares * tasa;
+
+      document.getElementById("listaProductos").innerHTML = listaHTML;
+      document.getElementById("cantidadProductos").innerText = totalProductos;
+      document.getElementById("totalCantidad").innerText = formatoCantidad(totalCantidad);
+      document.getElementById("totalDolares").innerText = "$" + totalDolares.toFixed(2);
+      document.getElementById("totalBolivares").innerText = tasa > 0 ? formatoBs(totalBolivares) : "Coloca la tasa BCV";
+
+      generarResumen();
+      guardarDatos();
+    }
+
+    function generarResumen() {
+      var tasa = obtenerTasa();
+      var totalDolares = 0;
+      var totalCantidad = 0;
+      var texto = "";
+
+      texto += "Pedido de productos de limpieza\n";
+      texto += "-----------------------------\n";
+
+      if (productos.length === 0) {
+        texto += "Sin productos agregados.\n";
+      } else {
+        var conteo = contarProductos();
+
+        for (var clave in conteo) {
+          var nombre = conteo[clave].nombre;
+          var cantidad = conteo[clave].cantidad;
+          var precioUnidad = conteo[clave].precioUnidad;
+          var subtotal = cantidad * precioUnidad;
+
+          texto += formatoCantidad(cantidad) + " x " + nombre + " - $" + precioUnidad.toFixed(2) + " c/u = $" + subtotal.toFixed(2) + "\n";
+
+          totalDolares += subtotal;
+          totalCantidad += cantidad;
+        }
+      }
+
+      texto += "-----------------------------\n";
+      texto += "Total en litros/unidades: " + formatoCantidad(totalCantidad) + "\n";
+      texto += "Total en dólares: $" + totalDolares.toFixed(2) + "\n";
+
+      if (tasa > 0) {
+        texto += "Total en bolívares: " + formatoBs(totalDolares * tasa) + "\n";
+      } else {
+        texto += "Total en bolívares: pendiente por tasa BCV\n";
+      }
+
+      texto += "-----------------------------\n";
+      texto += "Pago móvil:\n";
+      texto += "Banco: Banesco\n";
+      texto += "Cédula: 23904010\n";
+      texto += "Teléfono: 04120536593\n";
+
+      document.getElementById("resumenCopiar").value = texto;
+      return texto;
+    }
+
+    function copiarResumen() {
+      var texto = generarResumen();
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(texto).then(function() {
+          alert("Resumen copiado. Ya puedes pegarlo en WhatsApp.");
+        }).catch(function() {
+          copiarManual();
+        });
+      } else {
+        copiarManual();
+      }
+    }
+
+    function copiarManual() {
+      var resumen = document.getElementById("resumenCopiar");
+      resumen.select();
+
+      try {
+        document.execCommand("copy");
+        alert("Resumen copiado. Ya puedes pegarlo en WhatsApp.");
+      } catch (e) {
+        alert("No se pudo copiar automático. Selecciona el texto y cópialo manualmente.");
+      }
+    }
+
+    function enviarWhatsApp() {
+      var texto = generarResumen();
+      var url = "https://wa.me/?text=" + encodeURIComponent(texto);
+      window.open(url, "_blank");
+    }
+
+    function verPrecios() {
+      var texto = "";
+      texto += "TABULADOR DE PRODUCTOS\n\n";
+      texto += "Cocina\n";
+      texto += "Lavaplatos: $1.50 / L\n\n";
+
+      texto += "Ropa\n";
+      texto += "Jabón líquido: $1.50 / L\n";
+      texto += "Suavizante: $1.50 / L\n\n";
+
+      texto += "Limpieza general\n";
+      texto += "Cera: $1.00 / L\n";
+      texto += "Cloro: $0.80 / L\n";
+      texto += "Desinfectante: $0.90 / L\n";
+      texto += "Desengrasante: $1.50 / L\n";
+      texto += "Mata olor: $0.95 / L\n\n";
+
+      texto += "Baño\n";
+      texto += "Limpia pocetas: $1.80 / L\n";
+
+      alert(texto);
+    }
+
+    async function actualizarTasaBCV(mostrarAlerta) {
+      try {
+        var respuesta = await fetch("https://ve.dolarapi.com/v1/dolares/oficial");
+        var datos = await respuesta.json();
+
+        if (datos && datos.promedio) {
+          var tasa = parseFloat(datos.promedio);
+          document.getElementById("tasa").value = tasa.toFixed(2);
+          localStorage.setItem(STORAGE_TASA, tasa.toFixed(2));
+
+          if (mostrarAlerta) {
+            alert("Tasa actualizada correctamente: " + formatoBs(tasa));
+          }
+
+          actualizarPantalla();
+        } else {
+          if (mostrarAlerta) {
+            alert("No pude leer la tasa automática. Colócala manualmente.");
+          }
+        }
+      } catch (error) {
+        if (mostrarAlerta) {
+          alert("No se pudo actualizar la tasa. Colócala manualmente.");
+        }
+      }
+    }
+
+    function alCambiarTasa() {
+      guardarDatos();
+      actualizarPantalla();
+    }
+
+    window.onload = function() {
+      cargarDatos();
+      actualizarPantalla();
+      actualizarTasaBCV(false);
+    };
+  </script>
+</body>
+</html>
