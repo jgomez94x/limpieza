@@ -13,10 +13,10 @@
   <meta name="theme-color" content="#fff7fb">
 
   <!-- Icono de la app para iPhone -->
-  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="icon.png">
 
   <!-- Icono normal para navegador -->
-  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="icon.png">
 
   <style>
     body {
@@ -272,11 +272,19 @@
 
     .item-lista {
       border-bottom: 1px solid #eeeeee;
-      padding: 8px 0;
+      padding: 10px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
     }
 
     .item-lista:last-child {
       border-bottom: none;
+    }
+
+    .item-info {
+      flex: 1;
     }
 
     .item-nombre {
@@ -289,27 +297,21 @@
       margin-top: 3px;
     }
 
-    .item-controles {
-      margin-top: 7px;
-    }
-
-    .btn-mini {
+    .btn-eliminar-linea {
       border: none;
-      border-radius: 8px;
-      padding: 6px 10px;
-      margin-right: 5px;
-      cursor: pointer;
-      font-weight: bold;
-      background: #e9e9e9;
-      color: #444;
-    }
-
-    .btn-mini.mas {
-      background: #cdeac0;
-    }
-
-    .btn-mini.menos {
       background: #ffcad4;
+      color: #8a2335;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .btn-eliminar-linea:hover {
+      background: #f5a8b8;
     }
 
     .totales {
@@ -340,10 +342,6 @@
       color: #444;
       display: inline-block;
       margin: 0 8px 8px 0;
-    }
-
-    .eliminar {
-      background: #ffcad4;
     }
 
     .copiar {
@@ -596,7 +594,6 @@
     </div>
 
     <div class="acciones">
-      <button class="accion eliminar" onclick="eliminarUltimo()">Eliminar último</button>
       <button class="accion copiar" onclick="copiarResumen()">Copiar WhatsApp</button>
       <button class="accion whatsapp" onclick="enviarWhatsApp()">Enviar WhatsApp</button>
       <button class="accion ver" onclick="verPrecios()">Ver precios</button>
@@ -699,13 +696,22 @@
       actualizarPantalla();
     }
 
-    function eliminarUltimo() {
-      if (productos.length > 0) {
-        productos.pop();
-        actualizarPantalla();
-      } else {
-        alert("No hay productos para eliminar.");
+    function eliminarLinea(claveBuscada) {
+      var conteo = contarProductos();
+      var nuevosProductos = [];
+
+      for (var clave in conteo) {
+        if (clave !== claveBuscada && conteo[clave].cantidad > 0) {
+          nuevosProductos.push({
+            nombre: conteo[clave].nombre,
+            precioUnidad: conteo[clave].precioUnidad,
+            cantidad: conteo[clave].cantidad
+          });
+        }
       }
+
+      productos = nuevosProductos;
+      actualizarPantalla();
     }
 
     function limpiarTodo() {
@@ -755,24 +761,6 @@
       return conteo;
     }
 
-    function cambiarCantidad(claveBuscada, cambio) {
-      var conteo = contarProductos();
-      var item = conteo[claveBuscada];
-
-      if (!item) {
-        return;
-      }
-
-      productos.push({
-        nombre: item.nombre,
-        precioUnidad: item.precioUnidad,
-        cantidad: cambio
-      });
-
-      normalizarProductos();
-      actualizarPantalla();
-    }
-
     function normalizarProductos() {
       var conteo = contarProductos();
       var nuevosProductos = [];
@@ -814,13 +802,11 @@
           totalDolares += subtotal;
 
           listaHTML += '<div class="item-lista">';
+          listaHTML += '<div class="item-info">';
           listaHTML += '<div class="item-nombre">' + nombre + '</div>';
           listaHTML += '<div class="item-detalle">' + formatoCantidad(cantidad) + ' L/unid x $' + precioUnidad.toFixed(2) + ' = $' + subtotal.toFixed(2) + '</div>';
-          listaHTML += '<div class="item-controles">';
-          listaHTML += '<button class="btn-mini menos" onclick="cambiarCantidad(\'' + clave + '\', -0.5)">- 0.5</button>';
-          listaHTML += '<button class="btn-mini mas" onclick="cambiarCantidad(\'' + clave + '\', 0.5)">+ 0.5</button>';
-          listaHTML += '<button class="btn-mini mas" onclick="cambiarCantidad(\'' + clave + '\', 1)">+ 1</button>';
           listaHTML += '</div>';
+          listaHTML += '<button class="btn-eliminar-linea" onclick="eliminarLinea(\'' + clave + '\')">×</button>';
           listaHTML += '</div>';
         }
       }
