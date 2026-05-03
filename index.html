@@ -117,18 +117,18 @@
       border-radius: 14px;
       box-shadow: 0 3px 8px rgba(0,0,0,0.08);
       overflow: hidden;
-      min-width: 120px;
+      min-width: 130px;
     }
 
     .producto {
       border: none;
       padding: 12px 10px;
-      cursor: pointer;
       font-size: 15px;
       font-weight: bold;
       color: #555;
       width: 100%;
       display: block;
+      cursor: default;
     }
 
     .producto span {
@@ -139,21 +139,28 @@
       color: #666;
     }
 
-    .medio-litro {
-      width: 100%;
+    .opciones-litro {
+      display: flex;
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .boton-litro {
+      width: 50%;
       border: none;
-      padding: 8px;
+      padding: 9px 4px;
       background: rgba(255,255,255,0.65);
       font-size: 13px;
       font-weight: bold;
       cursor: pointer;
       color: #555;
-      border-top: 1px solid rgba(0,0,0,0.06);
     }
 
-    .medio-litro:hover,
-    .producto:hover {
-      filter: brightness(0.98);
+    .boton-litro:first-child {
+      border-right: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .boton-litro:hover {
+      filter: brightness(0.96);
     }
 
     .p1 { background: #ffd6e8; }
@@ -237,6 +244,10 @@
       cursor: pointer;
       font-weight: bold;
       font-size: 14px;
+    }
+
+    .boton-manual:hover {
+      background: #efc99d;
     }
 
     .resumen-box {
@@ -432,11 +443,14 @@
       <h2>Cocina</h2>
 
       <div class="producto-card p1">
-        <button class="producto p1" onclick="agregarProducto('Lavaplatos', 1.50, 1)">
+        <button class="producto p1" type="button">
           Lavaplatos
           <span>$1.50 / L</span>
         </button>
-        <button class="medio-litro" onclick="agregarProducto('Lavaplatos', 1.50, 0.5)">+ 0.5 L</button>
+        <div class="opciones-litro">
+          <button class="boton-litro" onclick="agregarProducto('Lavaplatos', 1.50, 0.5)">+ 0.5 L</button>
+          <button class="boton-litro" onclick="agregarProducto('Lavaplatos', 1.50, 1)">+ 1 L</button>
+        </div>
       </div>
     </div>
 
@@ -444,19 +458,25 @@
       <h2>Ropa</h2>
 
       <div class="producto-card p2">
-        <button class="producto p2" onclick="agregarProducto('Jabón líquido', 1.50, 1)">
+        <button class="producto p2" type="button">
           Jabón líquido
           <span>$1.50 / L</span>
         </button>
-        <button class="medio-litro" onclick="agregarProducto('Jabón líquido', 1.50, 0.5)">+ 0.5 L</button>
+        <div class="opciones-litro">
+          <button class="boton-litro" onclick="agregarProducto('Jabón líquido', 1.50, 0.5)">+ 0.5 L</button>
+          <button class="boton-litro" onclick="agregarProducto('Jabón líquido', 1.50, 1)">+ 1 L</button>
+        </div>
       </div>
 
       <div class="producto-card p4">
-        <button class="producto p4" onclick="agregarProducto('Suavizante', 1.50, 1)">
+        <button class="producto p4" type="button">
           Suavizante
           <span>$1.50 / L</span>
         </button>
-        <button class="medio-litro" onclick="agregarProducto('Suavizante', 1.50, 0.5)">+ 0.5 L</button>
+        <div class="opciones-litro">
+          <button class="boton-litro" onclick="agregarProducto('Suavizante', 1.50, 0.5)">+ 0.5 L</button>
+          <button class="boton-litro" onclick="agregarProducto('Suavizante', 1.50, 1)">+ 1 L</button>
+        </div>
       </div>
     </div>
 
@@ -464,43 +484,58 @@
       <h2>Limpieza general</h2>
 
       <div class="producto-card p3">
-        <button class="producto p3" onclick="agregarProducto('Cera', 1.00, 1)">
+        <button class="producto p3" type="button">
           Cera
           <span>$1.00 / L</span>
         </button>
-        <button class="medio-litro" onclick="agregarProducto('Cera', 1.00, 0.5)">+ 0.5 L</button>
+        <div class="opciones-litro">
+          <button class="boton-litro" onclick="agregarProducto('Cera', 1.00, 0.5)">+ 0.5 L</button>
+          <button class="boton-litro" onclick="agregarProducto('Cera', 1.00, 1)">+ 1 L</button>
+        </div>
       </div>
 
       <div class="producto-card p5">
-        <button class="producto p5" onclick="agregarProducto('Cloro', 0.80, 1)">
+        <button class="producto p5" type="button">
           Cloro
           <span>$0.80 / L</span>
         </button>
-        <button class="medio-litro" onclick="agregarProducto('Cloro', 0.80, 0.5)">+ 0.5 L</button>
+        <div class="opciones-litro">
+          <button class="boton-litro" onclick="agregarProducto('Cloro', 0.80, 0.5)">+ 0.5 L</button>
+          <button class="boton-litro" onclick="agregarProducto('Cloro', 0.80, 1)">+ 1 L</button>
+        </div>
       </div>
 
       <div class="producto-card p6">
-        <button class="producto p6" onclick="agregarProducto('Desinfectante', 0.90, 1)">
+        <button class="producto p6" type="button">
           Desinfectante
           <span>$0.90 / L</span>
         </button>
-        <button class="medio-litro" onclick="agregarProducto('Desinfectante', 0.90, 0.5)">+ 0.5 L</button>
+        <div class="opciones-litro">
+          <button class="boton-litro" onclick="agregarProducto('Desinfectante', 0.90, 0.5)">+ 0.5 L</button>
+          <button class="boton-litro" onclick="agregarProducto('Desinfectante', 0.90, 1)">+ 1 L</button>
+        </div>
       </div>
 
       <div class="producto-card p8">
-        <button class="producto p8" onclick="agregarProducto('Desengrasante', 1.50, 1)">
+        <button class="producto p8" type="button">
           Desengrasante
           <span>$1.50 / L</span>
         </button>
-        <button class="medio-litro" onclick="agregarProducto('Desengrasante', 1.50, 0.5)">+ 0.5 L</button>
+        <div class="opciones-litro">
+          <button class="boton-litro" onclick="agregarProducto('Desengrasante', 1.50, 0.5)">+ 0.5 L</button>
+          <button class="boton-litro" onclick="agregarProducto('Desengrasante', 1.50, 1)">+ 1 L</button>
+        </div>
       </div>
 
       <div class="producto-card p9">
-        <button class="producto p9" onclick="agregarProducto('Mata olor', 0.95, 1)">
+        <button class="producto p9" type="button">
           Mata olor
           <span>$0.95 / L</span>
         </button>
-        <button class="medio-litro" onclick="agregarProducto('Mata olor', 0.95, 0.5)">+ 0.5 L</button>
+        <div class="opciones-litro">
+          <button class="boton-litro" onclick="agregarProducto('Mata olor', 0.95, 0.5)">+ 0.5 L</button>
+          <button class="boton-litro" onclick="agregarProducto('Mata olor', 0.95, 1)">+ 1 L</button>
+        </div>
       </div>
     </div>
 
@@ -508,11 +543,14 @@
       <h2>Baño</h2>
 
       <div class="producto-card p7">
-        <button class="producto p7" onclick="agregarProducto('Limpia pocetas', 1.80, 1)">
+        <button class="producto p7" type="button">
           Limpia pocetas
           <span>$1.80 / L</span>
         </button>
-        <button class="medio-litro" onclick="agregarProducto('Limpia pocetas', 1.80, 0.5)">+ 0.5 L</button>
+        <div class="opciones-litro">
+          <button class="boton-litro" onclick="agregarProducto('Limpia pocetas', 1.80, 0.5)">+ 0.5 L</button>
+          <button class="boton-litro" onclick="agregarProducto('Limpia pocetas', 1.80, 1)">+ 1 L</button>
+        </div>
       </div>
     </div>
 
@@ -777,7 +815,7 @@
 
           listaHTML += '<div class="item-lista">';
           listaHTML += '<div class="item-nombre">' + nombre + '</div>';
-          listaHTML += '<div class="item-detalle">' + formatoCantidad(cantidad) + ' x $' + precioUnidad.toFixed(2) + ' = $' + subtotal.toFixed(2) + '</div>';
+          listaHTML += '<div class="item-detalle">' + formatoCantidad(cantidad) + ' L/unid x $' + precioUnidad.toFixed(2) + ' = $' + subtotal.toFixed(2) + '</div>';
           listaHTML += '<div class="item-controles">';
           listaHTML += '<button class="btn-mini menos" onclick="cambiarCantidad(\'' + clave + '\', -0.5)">- 0.5</button>';
           listaHTML += '<button class="btn-mini mas" onclick="cambiarCantidad(\'' + clave + '\', 0.5)">+ 0.5</button>';
