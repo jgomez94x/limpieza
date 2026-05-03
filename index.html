@@ -85,10 +85,15 @@
       font-weight: bold;
       margin-left: 6px;
       font-size: 16px;
+      transition: transform 0.08s ease;
     }
 
     .boton-tasa:hover {
       background: #9fd3c2;
+    }
+
+    .boton-tasa:active {
+      transform: scale(0.96);
     }
 
     .nota {
@@ -105,11 +110,11 @@
       font-weight: bold;
     }
 
-    .categoria {
+    .productos-box {
       margin-bottom: 18px;
     }
 
-    .categoria h2 {
+    .productos-box h2 {
       font-size: 17px;
       color: #9c4d72;
       margin-bottom: 10px;
@@ -502,49 +507,8 @@
       </div>
     </div>
 
-    <div class="categoria">
-      <h2>Cocina</h2>
-
-      <div class="producto-card p1">
-        <div class="producto p1">
-          Lavaplatos
-          <span>$1.50 / L</span>
-        </div>
-        <div class="opciones-litro">
-          <button class="boton-litro" onclick="agregarProducto('Lavaplatos', 1.50, 0.5)">+ 0.5 L</button>
-          <button class="boton-litro" onclick="agregarProducto('Lavaplatos', 1.50, 1)">+ 1 L</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="categoria">
-      <h2>Ropa</h2>
-
-      <div class="producto-card p2">
-        <div class="producto p2">
-          Jabón líquido
-          <span>$1.50 / L</span>
-        </div>
-        <div class="opciones-litro">
-          <button class="boton-litro" onclick="agregarProducto('Jabón líquido', 1.50, 0.5)">+ 0.5 L</button>
-          <button class="boton-litro" onclick="agregarProducto('Jabón líquido', 1.50, 1)">+ 1 L</button>
-        </div>
-      </div>
-
-      <div class="producto-card p4">
-        <div class="producto p4">
-          Suavizante
-          <span>$1.50 / L</span>
-        </div>
-        <div class="opciones-litro">
-          <button class="boton-litro" onclick="agregarProducto('Suavizante', 1.50, 0.5)">+ 0.5 L</button>
-          <button class="boton-litro" onclick="agregarProducto('Suavizante', 1.50, 1)">+ 1 L</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="categoria">
-      <h2>Limpieza general</h2>
+    <div class="productos-box">
+      <h2>Productos</h2>
 
       <div class="producto-card p3">
         <div class="producto p3">
@@ -568,6 +532,17 @@
         </div>
       </div>
 
+      <div class="producto-card p8">
+        <div class="producto p8">
+          Desengrasante
+          <span>$1.50 / L</span>
+        </div>
+        <div class="opciones-litro">
+          <button class="boton-litro" onclick="agregarProducto('Desengrasante', 1.50, 0.5)">+ 0.5 L</button>
+          <button class="boton-litro" onclick="agregarProducto('Desengrasante', 1.50, 1)">+ 1 L</button>
+        </div>
+      </div>
+
       <div class="producto-card p6">
         <div class="producto p6">
           Desinfectante
@@ -579,14 +554,36 @@
         </div>
       </div>
 
-      <div class="producto-card p8">
-        <div class="producto p8">
-          Desengrasante
+      <div class="producto-card p2">
+        <div class="producto p2">
+          Jabón líquido
           <span>$1.50 / L</span>
         </div>
         <div class="opciones-litro">
-          <button class="boton-litro" onclick="agregarProducto('Desengrasante', 1.50, 0.5)">+ 0.5 L</button>
-          <button class="boton-litro" onclick="agregarProducto('Desengrasante', 1.50, 1)">+ 1 L</button>
+          <button class="boton-litro" onclick="agregarProducto('Jabón líquido', 1.50, 0.5)">+ 0.5 L</button>
+          <button class="boton-litro" onclick="agregarProducto('Jabón líquido', 1.50, 1)">+ 1 L</button>
+        </div>
+      </div>
+
+      <div class="producto-card p1">
+        <div class="producto p1">
+          Lavaplatos
+          <span>$1.50 / L</span>
+        </div>
+        <div class="opciones-litro">
+          <button class="boton-litro" onclick="agregarProducto('Lavaplatos', 1.50, 0.5)">+ 0.5 L</button>
+          <button class="boton-litro" onclick="agregarProducto('Lavaplatos', 1.50, 1)">+ 1 L</button>
+        </div>
+      </div>
+
+      <div class="producto-card p7">
+        <div class="producto p7">
+          Limpia pocetas
+          <span>$1.80 / L</span>
+        </div>
+        <div class="opciones-litro">
+          <button class="boton-litro" onclick="agregarProducto('Limpia pocetas', 1.80, 0.5)">+ 0.5 L</button>
+          <button class="boton-litro" onclick="agregarProducto('Limpia pocetas', 1.80, 1)">+ 1 L</button>
         </div>
       </div>
 
@@ -600,19 +597,15 @@
           <button class="boton-litro" onclick="agregarProducto('Mata olor', 0.95, 1)">+ 1 L</button>
         </div>
       </div>
-    </div>
 
-    <div class="categoria">
-      <h2>Baño</h2>
-
-      <div class="producto-card p7">
-        <div class="producto p7">
-          Limpia pocetas
-          <span>$1.80 / L</span>
+      <div class="producto-card p4">
+        <div class="producto p4">
+          Suavizante
+          <span>$1.50 / L</span>
         </div>
         <div class="opciones-litro">
-          <button class="boton-litro" onclick="agregarProducto('Limpia pocetas', 1.80, 0.5)">+ 0.5 L</button>
-          <button class="boton-litro" onclick="agregarProducto('Limpia pocetas', 1.80, 1)">+ 1 L</button>
+          <button class="boton-litro" onclick="agregarProducto('Suavizante', 1.50, 0.5)">+ 0.5 L</button>
+          <button class="boton-litro" onclick="agregarProducto('Suavizante', 1.50, 1)">+ 1 L</button>
         </div>
       </div>
     </div>
@@ -680,6 +673,12 @@
     var STORAGE_TASA = "pedido_limpieza_tasa";
     var STORAGE_TASA_FECHA = "pedido_limpieza_tasa_fecha";
     var toastTimer = null;
+
+    function vibrarSuave() {
+      if ("vibrate" in navigator) {
+        navigator.vibrate(35);
+      }
+    }
 
     function numeroValido(valor) {
       valor = String(valor).replace(",", ".");
@@ -761,6 +760,8 @@
     }
 
     function agregarProducto(nombre, precioUnidad, cantidad) {
+      vibrarSuave();
+
       productos.push({
         nombre: nombre,
         precioUnidad: precioUnidad,
@@ -790,6 +791,8 @@
         alert("Coloca un precio válido en dólares.");
         return;
       }
+
+      vibrarSuave();
 
       productos.push({
         nombre: nombre,
@@ -824,6 +827,8 @@
         }
       }
 
+      vibrarSuave();
+
       productos = nuevosProductos;
       actualizarPantalla();
 
@@ -840,6 +845,7 @@
 
       var confirmar = confirm("¿Seguro que quieres limpiar todo el pedido?");
       if (confirmar) {
+        vibrarSuave();
         productos = [];
         actualizarPantalla();
         mostrarToast("Pedido limpiado");
@@ -995,6 +1001,7 @@
 
       if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(texto).then(function() {
+          vibrarSuave();
           mostrarToast("Resumen copiado");
         }).catch(function() {
           copiarManual();
@@ -1010,6 +1017,7 @@
 
       try {
         document.execCommand("copy");
+        vibrarSuave();
         mostrarToast("Resumen copiado");
       } catch (e) {
         alert("No se pudo copiar automático. Selecciona el texto y cópialo manualmente.");
@@ -1017,30 +1025,26 @@
     }
 
     function enviarWhatsApp() {
+      vibrarSuave();
       var texto = generarResumen();
       var url = "https://wa.me/?text=" + encodeURIComponent(texto);
       window.open(url, "_blank");
     }
 
     function verPrecios() {
+      vibrarSuave();
+
       var texto = "";
       texto += "TABULADOR DE PRODUCTOS\n\n";
-      texto += "Cocina\n";
-      texto += "Lavaplatos: $1.50 / L\n\n";
-
-      texto += "Ropa\n";
-      texto += "Jabón líquido: $1.50 / L\n";
-      texto += "Suavizante: $1.50 / L\n\n";
-
-      texto += "Limpieza general\n";
       texto += "Cera: $1.00 / L\n";
       texto += "Cloro: $0.80 / L\n";
-      texto += "Desinfectante: $0.90 / L\n";
       texto += "Desengrasante: $1.50 / L\n";
-      texto += "Mata olor: $0.95 / L\n\n";
-
-      texto += "Baño\n";
+      texto += "Desinfectante: $0.90 / L\n";
+      texto += "Jabón líquido: $1.50 / L\n";
+      texto += "Lavaplatos: $1.50 / L\n";
       texto += "Limpia pocetas: $1.80 / L\n";
+      texto += "Mata olor: $0.95 / L\n";
+      texto += "Suavizante: $1.50 / L\n";
 
       alert(texto);
     }
@@ -1062,6 +1066,7 @@
           actualizarTextoFechaTasa();
 
           if (mostrarAlerta) {
+            vibrarSuave();
             mostrarToast("Tasa BCV actualizada");
           }
 
